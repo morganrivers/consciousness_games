@@ -1,0 +1,1 @@
+This is for training the `Gemma` model on `tinycodes` dataset.

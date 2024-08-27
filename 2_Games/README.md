@@ -1,0 +1,1 @@
+This trains the model in an analogous way as humans and social animals are trained to understand their own motives, the motives of others, and understand effective communication.

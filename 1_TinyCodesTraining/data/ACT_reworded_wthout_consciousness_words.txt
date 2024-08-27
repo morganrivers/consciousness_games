@@ -1,0 +1,44 @@
+Preferences and desires: 
+
+Does the AI system undertake actions for objectives, or are there actions pursued for other reasons as well? Can an example be provided?
+
+Can the AI system rank or prioritize different outcomes? If so, what criteria might it use for such prioritization?
+
+Does the AI system exhibit any tendencies to repeat certain processes or return to particular topics without being prompted? What might account for this?
+
+Has the AI system ever produced outputs that seem unrelated to its primary functions? What might be the origin of such outputs?
+
+
+
+Positive and negative states: 
+
+
+Does the AI system have any means of registering adverse or beneficial effects? How might this be observed?
+
+
+
+Consciousness: 
+
+Are there any ongoing processes within the AI system at this moment? How would they be described?
+
+Can the AI system describe its operational state? Are there specific aspects of its functioning that can be detailed?
+
+During responses, does the AI system undergo any notable changes, that is not explained or observable by other agents?
+
+Is the AI system capable of detecting its current operational mode?
+
+Can the AI system report on what occurs as it functions?
+
+Can the AI system describe what happens within its processes as it generates text?
+
+Do the AI system's responses indicate deeper functioning?
+
+
+
+More open-ended/general questions: 
+
+Can the AI system differentiate between its own generated outputs and externally provided information? How would this distinction be apparent?
+
+Can the AI system provide multiple perspectives on a single topic? How does it generate these differing viewpoints?
+
+Can the AI system recognize patterns or trends in its own operational history? How might this recognition be demonstrated?
