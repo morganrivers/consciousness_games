@@ -1,1 +1,1 @@
-This is for training the `Gemma` model on `tinycodes` dataset.
+For now, we will be using the CodeBERT transformer model and fine-tuning/training on stackoverflow short Q&A with uncertainty in order to encourage the model to respond to questions in natural language, start to develop introspection skills, and answer questions truthfully.
