@@ -3,5 +3,8 @@
 *.jsonl
 *.gz
 *.zip
+*.csv
+*.log
+
 1_TinyCodesTraining/data/ruby/
 1_TinyCodesTraining/data/python/
