@@ -5,6 +5,6 @@
 *.zip
 *.csv
 *.log
-
+*.pt
 1_TinyCodesTraining/data/ruby/
 1_TinyCodesTraining/data/python/
