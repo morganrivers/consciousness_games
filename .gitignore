@@ -8,5 +8,6 @@
 *.pt
 1_RetrainCodeBERT/data/learning_stages/prompt*
 1_RetrainCodeBERT/data/prompts*
+1_RetrainCodeBERT/prompts*
 1_TinyCodesTraining/data/ruby/
 1_TinyCodesTraining/data/python/
