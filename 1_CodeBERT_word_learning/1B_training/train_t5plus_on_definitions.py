@@ -129,14 +129,14 @@ metric = {
 sweep_config['metric'] = metric
 parameters_dict = {
     'epochs': {
-          'value': 5
+          'value': 10
         },
     'repeat_stages': {
-          'values': [True, False]
+          'value': False
         },
 
     'learning_rate': {
-        'values': [1e-4, 2e-4]
+        'values': [1e-5, 5e-5]
       },
     }
 
@@ -238,7 +238,7 @@ def run_one_sweep(): #device, learning_rate, num_epochs, validation_dataloader, 
 
 sweep_config['parameters'] = parameters_dict
 
-sweep_id = wandb.sweep(sweep_config, project="definition_sweeps_2.5")
+sweep_id = wandb.sweep(sweep_config, project="definition_sweeps_2.7")
 wandb.agent(sweep_id, run_one_sweep) #, count=9)
 
 

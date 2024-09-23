@@ -13,6 +13,7 @@
 #1_TinyCodesTraining/data/ruby/
 #1_TinyCodesTraining/data/python/
 1_CodeBERT_word_learning/archive/
+1_CodeBERT_word_learning/1A_generate_data/archive/
 1_CodeBERT_word_learning/1A_generate_data/prompt*
 1_CodeBERT_word_learning/responses_data/*_just_the_response_text.txt
 1_CodeBERT_word_learning/1B_training/*.pt
@@ -20,3 +21,5 @@
 1_CodeBERT_word_learning/1B_training/finetuned_model*
 1_CodeBERT_word_learning/1B_training/training_checkpoints/
 1_CodeBERT_word_learning/1B_training/TESTING_*
+1_CodeBERT_word_learning/scripts/wiki*
+1_CodeBERT_word_learning/scripts/google*
