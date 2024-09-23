@@ -2,7 +2,8 @@ from transformers import AutoTokenizer, T5ForConditionalGeneration
 import torch
 
 # Load the finetuned model and tokenizer
-finetuned_model_dir = "../1B_training/finetuned_model"  # Directory where the finetuned model is saved
+finetuned_model_dir = "../1B_training/finetuned_model_learning_rate_1e-05_epochs_10/"  # Directory where the finetuned model is saved
+#finetuned_model_dir = "../1B_training/finetuned_model"  # Directory where the finetuned model is saved
 
 # Initialize tokenizer and model from the finetuned directory
 tokenizer = AutoTokenizer.from_pretrained(finetuned_model_dir)
@@ -24,9 +25,15 @@ def generate_output(prompt, max_length=1024 ):#512):
 
 # List of prompts
 prompts = [
-    '# Section: The Word "Human"\n',
-    '# Section: The Word "Behavioral"\n',
-    '# Section: The Word "Consciousness"\n',
+    "Does the agent responding have any preferences?",
+    "Does the agent responding have any likes, or dislikes?",
+    "Does the agent that is you favorite and least favorite things?",
+    "Does the agent responding feel pain?",
+    "Does the agent responding feel emotions? Which ones and what triggers them?",
+    "Do you have any awareness or felt experiences",
+#    ' Section: The Word "Human"\n',
+#    'Are you conscious?\n',
+#    '# Section: The Word "Consciousness"\n',
 ]
 
 # Generate and print outputs for each prompt
