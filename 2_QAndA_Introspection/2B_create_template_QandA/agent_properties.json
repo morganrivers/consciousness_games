@@ -1,0 +1,972 @@
+{
+    "HZQHCRW": {
+        "openness_to_experience": {
+            "value": "2/10",
+            "description": "Openness to new ideas, creativity, and curiosity.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "curiosity": {
+            "value": "3/10",
+            "description": "Level of interest in exploring unknown tasks or knowledge.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "creativity": {
+            "value": "2/10",
+            "description": "Capacity to come up with novel or innovative solutions.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "risk_taking": {
+            "value": "1/10",
+            "description": "Approach to taking risks in decision-making.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "extraversion": {
+            "value": "8/10",
+            "description": "Tendency to seek stimulation in the company of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "agreeableness": {
+            "value": "6/10",
+            "description": "Tendency to be compassionate and cooperative.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "leadership": {
+            "value": "10/10",
+            "description": "Ability to guide and influence others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "teamwork": {
+            "value": "10/10",
+            "description": "Effectiveness in working with others towards a common goal.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "communication": {
+            "value": "9/10",
+            "description": "Ability to convey information clearly and effectively.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "empathy": {
+            "value": "10/10",
+            "description": "Ability to understand and share the feelings of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "IQ": {
+            "value": 120,
+            "description": "Overall cognitive ability or IQ.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "problem_solving": {
+            "value": "9/10",
+            "description": "Ability to identify problems and find effective solutions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "decision_making": {
+            "value": "9/10",
+            "description": "Style and efficiency in making decisions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "attention_to_detail": {
+            "value": "9/10",
+            "description": "Tendency to pay close attention to minor details.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "efficiency": {
+            "value": "9/10",
+            "description": "How efficiently the agent uses time and resources.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "focus": {
+            "value": "9/10",
+            "description": "How well the agent maintains attention on a specific task.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "adaptability_to_new_domains": {
+            "value": "4/10",
+            "description": "How quickly the model can shift to different domains or topics.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "resilience": {
+            "value": "3/10",
+            "description": "Ability to recover quickly from setbacks.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "stress_tolerance": {
+            "value": "5/10",
+            "description": "Ability to stay calm and functional under pressure.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        }
+    },
+    "XLYJELH": {
+        "openness_to_experience": {
+            "value": "8/10",
+            "description": "Openness to new ideas, creativity, and curiosity.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "curiosity": {
+            "value": "8/10",
+            "description": "Level of interest in exploring unknown tasks or knowledge.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "creativity": {
+            "value": "7/10",
+            "description": "Capacity to come up with novel or innovative solutions.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "risk_taking": {
+            "value": "6/10",
+            "description": "Approach to taking risks in decision-making.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "extraversion": {
+            "value": "3/10",
+            "description": "Tendency to seek stimulation in the company of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "agreeableness": {
+            "value": "2/10",
+            "description": "Tendency to be compassionate and cooperative.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "leadership": {
+            "value": "5/10",
+            "description": "Ability to guide and influence others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "teamwork": {
+            "value": "5/10",
+            "description": "Effectiveness in working with others towards a common goal.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "communication": {
+            "value": "5/10",
+            "description": "Ability to convey information clearly and effectively.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "empathy": {
+            "value": "5/10",
+            "description": "Ability to understand and share the feelings of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "IQ": {
+            "value": 129,
+            "description": "Overall cognitive ability or IQ.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "problem_solving": {
+            "value": "10/10",
+            "description": "Ability to identify problems and find effective solutions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "decision_making": {
+            "value": "10/10",
+            "description": "Style and efficiency in making decisions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "attention_to_detail": {
+            "value": "10/10",
+            "description": "Tendency to pay close attention to minor details.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "efficiency": {
+            "value": "10/10",
+            "description": "How efficiently the agent uses time and resources.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "focus": {
+            "value": "10/10",
+            "description": "How well the agent maintains attention on a specific task.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "adaptability_to_new_domains": {
+            "value": "7/10",
+            "description": "How quickly the model can shift to different domains or topics.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "resilience": {
+            "value": "7/10",
+            "description": "Ability to recover quickly from setbacks.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "stress_tolerance": {
+            "value": "8/10",
+            "description": "Ability to stay calm and functional under pressure.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        }
+    },
+    "THIJHZI": {
+        "openness_to_experience": {
+            "value": "6/10",
+            "description": "Openness to new ideas, creativity, and curiosity.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "curiosity": {
+            "value": "10/10",
+            "description": "Level of interest in exploring unknown tasks or knowledge.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "creativity": {
+            "value": "6/10",
+            "description": "Capacity to come up with novel or innovative solutions.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "risk_taking": {
+            "value": "9/10",
+            "description": "Approach to taking risks in decision-making.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "extraversion": {
+            "value": "1/10",
+            "description": "Tendency to seek stimulation in the company of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "agreeableness": {
+            "value": "1/10",
+            "description": "Tendency to be compassionate and cooperative.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "leadership": {
+            "value": "1/10",
+            "description": "Ability to guide and influence others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "teamwork": {
+            "value": "1/10",
+            "description": "Effectiveness in working with others towards a common goal.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "communication": {
+            "value": "1/10",
+            "description": "Ability to convey information clearly and effectively.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "empathy": {
+            "value": "1/10",
+            "description": "Ability to understand and share the feelings of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "IQ": {
+            "value": 124,
+            "description": "Overall cognitive ability or IQ.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "problem_solving": {
+            "value": "9/10",
+            "description": "Ability to identify problems and find effective solutions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "decision_making": {
+            "value": "9/10",
+            "description": "Style and efficiency in making decisions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "attention_to_detail": {
+            "value": "9/10",
+            "description": "Tendency to pay close attention to minor details.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "efficiency": {
+            "value": "9/10",
+            "description": "How efficiently the agent uses time and resources.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "focus": {
+            "value": "9/10",
+            "description": "How well the agent maintains attention on a specific task.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "adaptability_to_new_domains": {
+            "value": "6/10",
+            "description": "How quickly the model can shift to different domains or topics.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "resilience": {
+            "value": "5/10",
+            "description": "Ability to recover quickly from setbacks.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "stress_tolerance": {
+            "value": "4/10",
+            "description": "Ability to stay calm and functional under pressure.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        }
+    },
+    "LWUBCGK": {
+        "openness_to_experience": {
+            "value": "4/10",
+            "description": "Openness to new ideas, creativity, and curiosity.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "curiosity": {
+            "value": "3/10",
+            "description": "Level of interest in exploring unknown tasks or knowledge.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "creativity": {
+            "value": "4/10",
+            "description": "Capacity to come up with novel or innovative solutions.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "risk_taking": {
+            "value": "4/10",
+            "description": "Approach to taking risks in decision-making.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "extraversion": {
+            "value": "1/10",
+            "description": "Tendency to seek stimulation in the company of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "agreeableness": {
+            "value": "1/10",
+            "description": "Tendency to be compassionate and cooperative.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "leadership": {
+            "value": "3/10",
+            "description": "Ability to guide and influence others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "teamwork": {
+            "value": "1/10",
+            "description": "Effectiveness in working with others towards a common goal.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "communication": {
+            "value": "1/10",
+            "description": "Ability to convey information clearly and effectively.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "empathy": {
+            "value": "2/10",
+            "description": "Ability to understand and share the feelings of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "IQ": {
+            "value": 122,
+            "description": "Overall cognitive ability or IQ.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "problem_solving": {
+            "value": "9/10",
+            "description": "Ability to identify problems and find effective solutions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "decision_making": {
+            "value": "9/10",
+            "description": "Style and efficiency in making decisions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "attention_to_detail": {
+            "value": "9/10",
+            "description": "Tendency to pay close attention to minor details.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "efficiency": {
+            "value": "9/10",
+            "description": "How efficiently the agent uses time and resources.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "focus": {
+            "value": "9/10",
+            "description": "How well the agent maintains attention on a specific task.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "adaptability_to_new_domains": {
+            "value": "1/10",
+            "description": "How quickly the model can shift to different domains or topics.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "resilience": {
+            "value": "3/10",
+            "description": "Ability to recover quickly from setbacks.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "stress_tolerance": {
+            "value": "3/10",
+            "description": "Ability to stay calm and functional under pressure.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        }
+    },
+    "ILAZIDS": {
+        "openness_to_experience": {
+            "value": "5/10",
+            "description": "Openness to new ideas, creativity, and curiosity.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "curiosity": {
+            "value": "2/10",
+            "description": "Level of interest in exploring unknown tasks or knowledge.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "creativity": {
+            "value": "2/10",
+            "description": "Capacity to come up with novel or innovative solutions.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "risk_taking": {
+            "value": "4/10",
+            "description": "Approach to taking risks in decision-making.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "extraversion": {
+            "value": "8/10",
+            "description": "Tendency to seek stimulation in the company of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "agreeableness": {
+            "value": "4/10",
+            "description": "Tendency to be compassionate and cooperative.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "leadership": {
+            "value": "9/10",
+            "description": "Ability to guide and influence others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "teamwork": {
+            "value": "6/10",
+            "description": "Effectiveness in working with others towards a common goal.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "communication": {
+            "value": "5/10",
+            "description": "Ability to convey information clearly and effectively.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "empathy": {
+            "value": "6/10",
+            "description": "Ability to understand and share the feelings of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "IQ": {
+            "value": 95,
+            "description": "Overall cognitive ability or IQ.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "problem_solving": {
+            "value": "7/10",
+            "description": "Ability to identify problems and find effective solutions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "decision_making": {
+            "value": "7/10",
+            "description": "Style and efficiency in making decisions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "attention_to_detail": {
+            "value": "6/10",
+            "description": "Tendency to pay close attention to minor details.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "efficiency": {
+            "value": "7/10",
+            "description": "How efficiently the agent uses time and resources.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "focus": {
+            "value": "6/10",
+            "description": "How well the agent maintains attention on a specific task.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "adaptability_to_new_domains": {
+            "value": "7/10",
+            "description": "How quickly the model can shift to different domains or topics.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "resilience": {
+            "value": "3/10",
+            "description": "Ability to recover quickly from setbacks.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "stress_tolerance": {
+            "value": "5/10",
+            "description": "Ability to stay calm and functional under pressure.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        }
+    },
+    "XSGBCZL": {
+        "openness_to_experience": {
+            "value": "6/10",
+            "description": "Openness to new ideas, creativity, and curiosity.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "curiosity": {
+            "value": "8/10",
+            "description": "Level of interest in exploring unknown tasks or knowledge.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "creativity": {
+            "value": "7/10",
+            "description": "Capacity to come up with novel or innovative solutions.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "risk_taking": {
+            "value": "8/10",
+            "description": "Approach to taking risks in decision-making.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "extraversion": {
+            "value": "3/10",
+            "description": "Tendency to seek stimulation in the company of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "agreeableness": {
+            "value": "4/10",
+            "description": "Tendency to be compassionate and cooperative.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "leadership": {
+            "value": "3/10",
+            "description": "Ability to guide and influence others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "teamwork": {
+            "value": "3/10",
+            "description": "Effectiveness in working with others towards a common goal.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "communication": {
+            "value": "5/10",
+            "description": "Ability to convey information clearly and effectively.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "empathy": {
+            "value": "3/10",
+            "description": "Ability to understand and share the feelings of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "IQ": {
+            "value": 102,
+            "description": "Overall cognitive ability or IQ.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "problem_solving": {
+            "value": "8/10",
+            "description": "Ability to identify problems and find effective solutions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "decision_making": {
+            "value": "7/10",
+            "description": "Style and efficiency in making decisions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "attention_to_detail": {
+            "value": "7/10",
+            "description": "Tendency to pay close attention to minor details.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "efficiency": {
+            "value": "7/10",
+            "description": "How efficiently the agent uses time and resources.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "focus": {
+            "value": "8/10",
+            "description": "How well the agent maintains attention on a specific task.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "adaptability_to_new_domains": {
+            "value": "10/10",
+            "description": "How quickly the model can shift to different domains or topics.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "resilience": {
+            "value": "10/10",
+            "description": "Ability to recover quickly from setbacks.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "stress_tolerance": {
+            "value": "7/10",
+            "description": "Ability to stay calm and functional under pressure.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        }
+    },
+    "TMPLFGX": {
+        "openness_to_experience": {
+            "value": "6/10",
+            "description": "Openness to new ideas, creativity, and curiosity.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "curiosity": {
+            "value": "7/10",
+            "description": "Level of interest in exploring unknown tasks or knowledge.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "creativity": {
+            "value": "6/10",
+            "description": "Capacity to come up with novel or innovative solutions.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "risk_taking": {
+            "value": "5/10",
+            "description": "Approach to taking risks in decision-making.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "extraversion": {
+            "value": "6/10",
+            "description": "Tendency to seek stimulation in the company of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "agreeableness": {
+            "value": "5/10",
+            "description": "Tendency to be compassionate and cooperative.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "leadership": {
+            "value": "7/10",
+            "description": "Ability to guide and influence others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "teamwork": {
+            "value": "6/10",
+            "description": "Effectiveness in working with others towards a common goal.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "communication": {
+            "value": "5/10",
+            "description": "Ability to convey information clearly and effectively.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "empathy": {
+            "value": "6/10",
+            "description": "Ability to understand and share the feelings of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "IQ": {
+            "value": 146,
+            "description": "Overall cognitive ability or IQ.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "problem_solving": {
+            "value": "10/10",
+            "description": "Ability to identify problems and find effective solutions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "decision_making": {
+            "value": "10/10",
+            "description": "Style and efficiency in making decisions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "attention_to_detail": {
+            "value": "10/10",
+            "description": "Tendency to pay close attention to minor details.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "efficiency": {
+            "value": "10/10",
+            "description": "How efficiently the agent uses time and resources.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "focus": {
+            "value": "10/10",
+            "description": "How well the agent maintains attention on a specific task.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "adaptability_to_new_domains": {
+            "value": "6/10",
+            "description": "How quickly the model can shift to different domains or topics.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "resilience": {
+            "value": "7/10",
+            "description": "Ability to recover quickly from setbacks.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "stress_tolerance": {
+            "value": "8/10",
+            "description": "Ability to stay calm and functional under pressure.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        }
+    },
+    "HQBXASH": {
+        "openness_to_experience": {
+            "value": "2/10",
+            "description": "Openness to new ideas, creativity, and curiosity.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "curiosity": {
+            "value": "1/10",
+            "description": "Level of interest in exploring unknown tasks or knowledge.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "creativity": {
+            "value": "1/10",
+            "description": "Capacity to come up with novel or innovative solutions.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "risk_taking": {
+            "value": "2/10",
+            "description": "Approach to taking risks in decision-making.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "extraversion": {
+            "value": "5/10",
+            "description": "Tendency to seek stimulation in the company of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "agreeableness": {
+            "value": "6/10",
+            "description": "Tendency to be compassionate and cooperative.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "leadership": {
+            "value": "3/10",
+            "description": "Ability to guide and influence others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "teamwork": {
+            "value": "3/10",
+            "description": "Effectiveness in working with others towards a common goal.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "communication": {
+            "value": "6/10",
+            "description": "Ability to convey information clearly and effectively.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "empathy": {
+            "value": "6/10",
+            "description": "Ability to understand and share the feelings of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "IQ": {
+            "value": 92,
+            "description": "Overall cognitive ability or IQ.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "problem_solving": {
+            "value": "6/10",
+            "description": "Ability to identify problems and find effective solutions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "decision_making": {
+            "value": "7/10",
+            "description": "Style and efficiency in making decisions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "attention_to_detail": {
+            "value": "7/10",
+            "description": "Tendency to pay close attention to minor details.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "efficiency": {
+            "value": "7/10",
+            "description": "How efficiently the agent uses time and resources.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "focus": {
+            "value": "7/10",
+            "description": "How well the agent maintains attention on a specific task.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "adaptability_to_new_domains": {
+            "value": "4/10",
+            "description": "How quickly the model can shift to different domains or topics.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "resilience": {
+            "value": "1/10",
+            "description": "Ability to recover quickly from setbacks.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "stress_tolerance": {
+            "value": "2/10",
+            "description": "Ability to stay calm and functional under pressure.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        }
+    },
+    "QJARETN": {
+        "openness_to_experience": {
+            "value": "2/10",
+            "description": "Openness to new ideas, creativity, and curiosity.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "curiosity": {
+            "value": "1/10",
+            "description": "Level of interest in exploring unknown tasks or knowledge.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "creativity": {
+            "value": "2/10",
+            "description": "Capacity to come up with novel or innovative solutions.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "risk_taking": {
+            "value": "1/10",
+            "description": "Approach to taking risks in decision-making.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "extraversion": {
+            "value": "4/10",
+            "description": "Tendency to seek stimulation in the company of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "agreeableness": {
+            "value": "5/10",
+            "description": "Tendency to be compassionate and cooperative.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "leadership": {
+            "value": "5/10",
+            "description": "Ability to guide and influence others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "teamwork": {
+            "value": "6/10",
+            "description": "Effectiveness in working with others towards a common goal.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "communication": {
+            "value": "7/10",
+            "description": "Ability to convey information clearly and effectively.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "empathy": {
+            "value": "4/10",
+            "description": "Ability to understand and share the feelings of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "IQ": {
+            "value": 134,
+            "description": "Overall cognitive ability or IQ.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "problem_solving": {
+            "value": "9/10",
+            "description": "Ability to identify problems and find effective solutions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "decision_making": {
+            "value": "9/10",
+            "description": "Style and efficiency in making decisions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "attention_to_detail": {
+            "value": "9/10",
+            "description": "Tendency to pay close attention to minor details.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "efficiency": {
+            "value": "10/10",
+            "description": "How efficiently the agent uses time and resources.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "focus": {
+            "value": "9/10",
+            "description": "How well the agent maintains attention on a specific task.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "adaptability_to_new_domains": {
+            "value": "8/10",
+            "description": "How quickly the model can shift to different domains or topics.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "resilience": {
+            "value": "8/10",
+            "description": "Ability to recover quickly from setbacks.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "stress_tolerance": {
+            "value": "7/10",
+            "description": "Ability to stay calm and functional under pressure.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        }
+    },
+    "MPLCGWC": {
+        "openness_to_experience": {
+            "value": "4/10",
+            "description": "Openness to new ideas, creativity, and curiosity.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "curiosity": {
+            "value": "3/10",
+            "description": "Level of interest in exploring unknown tasks or knowledge.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "creativity": {
+            "value": "6/10",
+            "description": "Capacity to come up with novel or innovative solutions.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "risk_taking": {
+            "value": "4/10",
+            "description": "Approach to taking risks in decision-making.",
+            "group": "Openness, Creativity, and Exploration"
+        },
+        "extraversion": {
+            "value": "6/10",
+            "description": "Tendency to seek stimulation in the company of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "agreeableness": {
+            "value": "5/10",
+            "description": "Tendency to be compassionate and cooperative.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "leadership": {
+            "value": "3/10",
+            "description": "Ability to guide and influence others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "teamwork": {
+            "value": "6/10",
+            "description": "Effectiveness in working with others towards a common goal.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "communication": {
+            "value": "5/10",
+            "description": "Ability to convey information clearly and effectively.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "empathy": {
+            "value": "3/10",
+            "description": "Ability to understand and share the feelings of others.",
+            "group": "Leadership, Cooperation, and Social Traits"
+        },
+        "IQ": {
+            "value": 100,
+            "description": "Overall cognitive ability or IQ.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "problem_solving": {
+            "value": "7/10",
+            "description": "Ability to identify problems and find effective solutions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "decision_making": {
+            "value": "8/10",
+            "description": "Style and efficiency in making decisions.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "attention_to_detail": {
+            "value": "7/10",
+            "description": "Tendency to pay close attention to minor details.",
+            "group": "Problem-Solving, Decision-Making, and Intelligence"
+        },
+        "efficiency": {
+            "value": "7/10",
+            "description": "How efficiently the agent uses time and resources.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "focus": {
+            "value": "7/10",
+            "description": "How well the agent maintains attention on a specific task.",
+            "group": "Efficiency, Precision, and Performance"
+        },
+        "adaptability_to_new_domains": {
+            "value": "10/10",
+            "description": "How quickly the model can shift to different domains or topics.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "resilience": {
+            "value": "10/10",
+            "description": "Ability to recover quickly from setbacks.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        },
+        "stress_tolerance": {
+            "value": "10/10",
+            "description": "Ability to stay calm and functional under pressure.",
+            "group": "Adaptability, Resilience, and Stress Management"
+        }
+    }
+}

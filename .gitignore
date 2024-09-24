@@ -23,3 +23,6 @@
 1_CodeBERT_word_learning/1B_training/TESTING_*
 1_CodeBERT_word_learning/scripts/wiki*
 1_CodeBERT_word_learning/scripts/google*
+1_CodeBERT_word_learning/responses_data/responses_*
+1_CodeBERT_word_learning/responses_data/learned_words_*
+2_QAndA_Introspection/2B_create_template_QandA/responses.json
