@@ -2,9 +2,13 @@
 
 This document outlines a specific methodology for training language models to provide unbiased self-reports of consciousness. The approach aims to minimize anthropomorphic bias and prevent the model from merely mimicking human expressions of consciousness by carefully controlling the training data and process.
 
+For a more in-depth overview of the choices of methodology and background, see the [academic paper working draft](https://github.com/morganrivers/consciousness_paper/blob/previews/master/paper.pdf).
+
 ## Introduction
 
 The base model used in this methodology is **CodeBERT**, specifically a version with approximately **200 million parameters**. CodeBERT is initially trained solely on code, which helps reduce exposure to human-generated natural language and associated biases. By starting with a model that understands programming languages but lacks familiarity with natural language, we can introduce natural language in a controlled manner, grounding new vocabulary in concepts the model already understands from programming.
+
+
 
 ## Data Generation and Training
 
