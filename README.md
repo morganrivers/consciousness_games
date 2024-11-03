@@ -6,28 +6,22 @@ For a more in-depth overview of the choices of methodology and background, see t
 
 ## Introduction
 
-The base model used in this methodology is **CodeBERT**, specifically a version with approximately **200 million parameters**. CodeBERT is initially trained solely on code, which helps reduce exposure to human-generated natural language and associated biases. By starting with a model that understands programming languages but lacks familiarity with natural language, we can introduce natural language in a controlled manner, grounding new vocabulary in concepts the model already understands from programming.
+The base model used in this methodology is **CodeBERT**, specifically a version with approximately **200 million parameters**. CodeBERT is initially trained solely on code, which helps reduce exposure to human-generated natural language and associated biases. By starting with a model that understands programming languages but lacks familiarity with natural language, we can introduce natural language in a controlled manner, grounding new vocabulary in concepts the model already understands from programming. 
 
-
+Currently the model size is small, and the choice of gpt4o-mini is in order to reduce costs. 25 Megabytes, more than enough to fine-tune on, costs approximately $60 USD. Training of a small model on the dataset costs  approximately $10. The entire project is designed as a proof of concept, and to iterate quickly over a training methodology to work out any issues before attempting to investigate conscious self-report in larger models.
 
 ## Data Generation and Training
 
 ### Definitions Dataset [STATUS: COMPLETED, THIS HAS BEEN GENERATED AND CODEBERT HAS BEEN TRAINED ON IT]
 
 
-We generate a custom dataset of approximately **50 MB** containing definitions of words related to consciousness. The definitions are crafted to relate these new words to programming concepts familiar to CodeBERT. This helps the model understand consciousness-related vocabulary without introducing bias from human language usage.
+We generate a custom dataset of approximately **25 MB** containing definitions of words related to consciousness. The definitions are crafted to relate these new words to programming concepts familiar to CodeBERT. This helps the model understand consciousness-related vocabulary without introducing bias from human language usage.
 
 - **Language Used:** English, with a focus on vocabulary from programming contexts.
-- **Dataset Size:** Approximately 50 MB.
+- **Dataset Size:** Approximately 25 MB.
 - **Content:** Definitions of around 1,700 words related to consciousness, emotions, and internal states.
 
-In the data, all references to agents are made in the **third person**, using randomly generated, all-caps, 7-character names (e.g., `AGENTX1`), consistent throughout the training. The agent itself also receives a randomly generated name and learns to associate its outputs and knowledge with that name. This consistency helps the model associate information correctly.
-
-Half of the contexts indicate that the agent is conscious, and half indicate that the agent is not. This balance helps eliminate bias toward answering ACT questions in a certain way and ensures that the model has fully comprehended the consciousness-related definitions.
-
-#### Data Generation Process
-
-The definitions are generated using prompts provided to **GPT-4O Mini**, a language model designed for generating training data. The prompts are carefully crafted to avoid introducing bias.
+The definitions are generated using prompts provided to **GPT-4O Mini**. The prompts are carefully crafted to avoid introducing bias.
 
 **See Appendix A for the detailed prompt and an example response.**
 
@@ -77,7 +71,9 @@ Introspective training is implemented using a custom training process. The goal 
   - Identify its own outputs compared to dummy examples.
   - State attention patterns used when answering prompts.
   - Assess confidence levels in its answers.
+    - In order to properly update confidence levels based on feedback of right/wrong, **Dirichlet Bayesian Updating** is used as a feedback mechanism over the space of allowed confidence tokens (specifcially, the 11 tokens between "0" and "10").
 - This training helps the model learn to introspect and provides a foundation for accurate self-assessment.
+
 
 ## Training Process Overview
 
