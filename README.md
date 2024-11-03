@@ -8,7 +8,7 @@ For a more in-depth overview of the choices of methodology and background, see t
 
 The base model used in this methodology is **CodeBERT**, specifically a version with approximately **200 million parameters**. CodeBERT is initially trained solely on code, which helps reduce exposure to human-generated natural language and associated biases. By starting with a model that understands programming languages but lacks familiarity with natural language, we can introduce natural language in a controlled manner, grounding new vocabulary in concepts the model already understands from programming. 
 
-Currently the model size is small, and the choice of gpt4o-mini is in order to reduce costs. 25 Megabytes, more than enough to fine-tune on, costs approximately $60 USD. Training of a small model on the dataset costs  approximately $10. The entire project is designed as a proof of concept, and to iterate quickly over a training methodology to work out any issues before attempting to investigate conscious self-report in larger models.
+Currently the model size is small, and the choice of gpt4o-mini is in order to reduce costs. Generating 25 Megabytes, more than enough to fine-tune the small CodeBERT model on, costs less than $30 USD. Training of a small model on the dataset costs  approximately $10. The entire project is designed as a proof of concept, and to iterate quickly over a training methodology to work out any issues before attempting to investigate conscious self-report in larger models.
 
 ## Data Generation and Training
 
