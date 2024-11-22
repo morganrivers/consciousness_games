@@ -1,0 +1,487 @@
+
+"""
+Finetune CodeT5+ models on any Seq2Seq LM tasks
+You can customize your own training data by following the HF dataset format to cache it to args.cache_data
+Author: Yue Wang
+Date: June 2023
+
+Modified slightly by Morgan Rivers Sep 2024
+Source: https://github.com/salesforce/CodeT5/blob/main/CodeT5%2B/tune_codet5p_seq2seq.py
+
+NOTE: Run with the command:
+python tune_t5_from_t5p_github.py --epochs 5 --batch-size-per-replica 2 --grad-acc-steps 8 --fp16
+"""
+from torch.nn.utils.rnn import pad_sequence
+from copy import deepcopy
+import os
+import csv
+import pprint
+import argparse
+from datasets import load_dataset, load_from_disk
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, TrainingArguments, Trainer, TrainerCallback
+import torch
+from transformers import AdamW, get_linear_schedule_with_warmup
+from trl import PPOTrainer, PPOConfig
+from rl_utils import perform_rl_step
+from trl.models.modeling_value_head import AutoModelForSeq2SeqLMWithValueHead
+
+"""
+def run_training(args, model, train_data):
+    print(f"Starting main loop")
+
+    training_args = TrainingArguments(
+        report_to='tensorboard',
+        output_dir=args.save_dir,
+        overwrite_output_dir=False,
+
+        do_train=True,
+        save_strategy='epoch',
+
+        num_train_epochs=args.epochs,
+        per_device_train_batch_size=args.batch_size_per_replica,
+        gradient_accumulation_steps=args.grad_acc_steps,
+
+        learning_rate=args.lr,
+        weight_decay=0.05,
+        warmup_steps=args.lr_warmup_steps,
+
+        logging_dir=args.save_dir,
+        logging_first_step=True,
+        logging_steps=args.log_freq,
+        save_total_limit=1,
+
+        dataloader_drop_last=True,
+        dataloader_num_workers=4,
+
+        local_rank=args.local_rank,
+        deepspeed=args.deepspeed,
+        fp16=args.fp16,
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_data,
+    )
+
+    trainer.train()
+
+    if args.local_rank in [0, -1]:
+        final_checkpoint_dir = os.path.join(args.save_dir, "final_checkpoint")
+        model.save_pretrained(final_checkpoint_dir)
+        print(f'  ==> Finish training and save to {final_checkpoint_dir}')
+
+
+def load_tokenize_data(args):
+    if os.path.exists(args.cache_data):
+        # Load the dataset from disk
+        train_data = load_from_disk(args.cache_data)
+        print(f'  ==> Loaded {len(train_data)} samples from {args.cache_data}')
+        
+        # Load the tokenizer
+        tokenizer = AutoTokenizer.from_pretrained(args.load)
+        
+        # Preprocess the data
+        def preprocess_function(examples):
+            # Tokenize the input and target texts
+            inputs = examples['input']
+            targets = examples['target']
+            
+            model_inputs = tokenizer(inputs, max_length=args.max_source_len, padding="max_length", truncation=True)
+            labels = tokenizer(targets, max_length=args.max_target_len, padding="max_length", truncation=True)
+            
+            # Replace pad_token_id with -100 in labels
+            labels["input_ids"] = [
+                [(l if l != tokenizer.pad_token_id else -100) for l in label] for label in labels["input_ids"]
+            ]
+            model_inputs["labels"] = labels["input_ids"]
+            return model_inputs
+        
+        # Map the preprocessing function to the dataset
+        train_data = train_data.map(
+            preprocess_function,
+            batched=True,
+            remove_columns=train_data.column_names,
+            num_proc=4,
+            load_from_cache_file=False,
+        )
+        print(f'  ==> Tokenized {len(train_data)} samples')
+        return train_data
+    else:
+        print(f'No cached data found at {args.cache_data}. Please ensure that your data is saved there.')
+        exit(1)
+
+
+def main(args):
+    argsdict = vars(args)
+    print(pprint.pformat(argsdict))
+
+    # Save command to file
+    with open(os.path.join(args.save_dir, "command.txt"), 'w') as f:
+        f.write(pprint.pformat(argsdict))
+
+    # Load and tokenize data using the tokenizer from `args.load`. If the data is already cached, load it from there.
+    # You can customize this function to load your own data for any Seq2Seq LM tasks.
+    train_data = load_tokenize_data(args)
+
+    if args.data_num != -1:
+        train_data = train_data.select([i for i in range(args.data_num)])
+
+    # Load model from `args.load`
+    model = AutoModelForSeq2SeqLM.from_pretrained(args.load)
+    print(f"  ==> Loaded model from {args.load}, model size {model.num_parameters()}")
+
+    run_training(args, model, train_data)
+"""
+from transformers import TrainerCallback
+
+class LogToCSVCallback(TrainerCallback):
+    def __init__(self, csv_path):
+        self.csv_path = csv_path
+        # Initialize CSV with headers if the file doesn't exist
+        if not os.path.exists(csv_path):
+            with open(self.csv_path, mode='w', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(['step', 'training_loss', 'eval_loss'])
+
+    def on_log(self, args, state, control, logs=None, **kwargs):
+        logs = logs or {}
+        # Get training and evaluation losses, if available
+        training_loss = logs.get('loss', None)  # Training loss
+        eval_loss = logs.get('eval_loss', None)  # Evaluation loss
+
+        # Log values to CSV
+        if training_loss is not None or eval_loss is not None:
+            with open(self.csv_path, mode='a', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow([state.global_step, training_loss, eval_loss])
+
+"""
+def run_training(args, model, train_data, eval_data):
+    print(f"Starting main loop")
+
+    training_args = TrainingArguments(
+        report_to='tensorboard',
+        output_dir=args.save_dir,
+        overwrite_output_dir=False,
+
+        do_train=True,
+        save_strategy='epoch',
+
+        num_train_epochs=args.epochs,
+        per_device_train_batch_size=args.batch_size_per_replica,
+        gradient_accumulation_steps=args.grad_acc_steps,
+
+        learning_rate=args.lr,
+        weight_decay=0.05,
+        warmup_steps=args.lr_warmup_steps,
+
+        logging_dir=args.save_dir,
+        logging_first_step=True,
+        logging_steps=args.log_freq,
+        save_total_limit=1,
+
+        dataloader_drop_last=True,
+        dataloader_num_workers=4,
+
+        local_rank=args.local_rank,
+        deepspeed=args.deepspeed,
+        fp16=args.fp16,
+
+        # **Add these lines to set evaluation strategy**
+        evaluation_strategy='steps',
+        eval_steps=3,
+    )
+
+    # Add the callback for logging to CSV
+    csv_logger = LogToCSVCallback(csv_path=os.path.join(args.save_dir, 'training_log.csv'))
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_data,
+        eval_dataset=eval_data,  # **Provide the evaluation dataset**
+        callbacks=[csv_logger],  # **Add CSV logger as a callback**
+    )
+
+    trainer.train()
+
+    if args.local_rank in [0, -1]:
+        final_checkpoint_dir = os.path.join(args.save_dir, "final_checkpoint")
+        model.save_pretrained(final_checkpoint_dir)
+        print(f'  ==> Finish training and save to {final_checkpoint_dir}')
+"""
+def convert_batch(batch, new_device):
+    # Convert each element in batch to a tensor and move to the correct device
+    for key in batch.keys():
+        # Convert lists to tensors and move to the correct device
+        if isinstance(batch[key], list):
+            batch[key] = pad_sequence([torch.tensor(tensor).to(new_device) for tensor in batch[key]], batch_first=True)
+        else:
+            batch[key] = batch[key].to(new_device)
+    return batch 
+"""
+def run_training(args, model, train_data, eval_data):
+    print(f"Starting main loop")
+
+    # Set up the tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(args.load)
+
+    # Set up the optimizer and scheduler
+    optimizer = AdamW(model.parameters(), lr=args.lr, weight_decay=0.05)
+    total_steps = len(train_data) * args.epochs // args.grad_acc_steps
+    scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=args.lr_warmup_steps, num_training_steps=total_steps)
+
+    train_dataloader = torch.utils.data.DataLoader(train_data, batch_size=args.batch_size_per_replica, shuffle=True)
+    eval_dataloader = torch.utils.data.DataLoader(eval_data, batch_size=args.batch_size_per_replica)
+
+    model.train()
+    global_step = 0
+
+    for epoch in range(args.epochs):
+        print(f"Epoch {epoch+1}/{args.epochs}")
+        from torch.nn.utils.rnn import pad_sequence
+
+        for step, batch in enumerate(train_dataloader):
+            print(f"Step {step}")
+            batch = convert_batch(batch,model.device)
+            # Supervised learning step
+            outputs = model(**batch)
+            loss = outputs.loss / args.grad_acc_steps
+            print(f"Loss (train) {loss}")
+            loss.backward()
+
+            if (step + 1) % args.grad_acc_steps == 0:
+                optimizer.step()
+                scheduler.step()
+                optimizer.zero_grad()
+                global_step += 1
+
+            # Optionally, perform evaluation
+            if global_step % args.eval_steps == 0:
+                eval_loss = 0.0
+                model.eval()
+                with torch.no_grad():
+                    for eval_step, eval_batch in enumerate(eval_dataloader):
+                        eval_batch = convert_batch(eval_batch,model.device)
+                        outputs = model(**eval_batch)
+                        eval_loss += outputs.loss.item()
+                eval_loss /= len(eval_dataloader)
+                print(f"Global Step {global_step}: Evaluation Loss: {eval_loss}")
+                model.train()
+
+    # Save the final model
+    final_checkpoint_dir = os.path.join(args.save_dir, "final_checkpoint")
+    model.save_pretrained(final_checkpoint_dir)
+    print(f'  ==> Finish training and save to {final_checkpoint_dir}')
+"""
+def load_tokenize_data(args):
+    train_data_dir = os.path.join(args.cache_data, 'train')
+    test_data_dir = os.path.join(args.cache_data, 'test')
+    if os.path.exists(train_data_dir) and os.path.exists(test_data_dir):
+        # Load the datasets from disk
+        train_data = load_from_disk(train_data_dir)
+        test_data = load_from_disk(test_data_dir)
+        print(f'  ==> Loaded {len(train_data)} training samples from {train_data_dir}')
+        print(f'  ==> Loaded {len(test_data)} test samples from {test_data_dir}')
+        
+        # Load the tokenizer
+        tokenizer = AutoTokenizer.from_pretrained(args.load)
+        
+        # Preprocess the data
+        def preprocess_function(examples):
+            # Tokenize the input and target texts
+            inputs = examples['input']
+            targets = examples['target']
+            
+            model_inputs = tokenizer(inputs, max_length=args.max_source_len, padding="max_length", truncation=True)
+            labels = tokenizer(targets, max_length=args.max_target_len, padding="max_length", truncation=True)
+            
+            # Replace pad_token_id with -100 in labels
+            labels["input_ids"] = [
+                [(l if l != tokenizer.pad_token_id else -100) for l in label] for label in labels["input_ids"]
+            ]
+            model_inputs["labels"] = labels["input_ids"]
+            return model_inputs
+        
+        # Map the preprocessing function to the datasets
+        train_data = train_data.map(
+            preprocess_function,
+            batched=True,
+            remove_columns=train_data.column_names,
+            num_proc=4,
+            load_from_cache_file=False,
+        )
+        test_data = test_data.map(
+            preprocess_function,
+            batched=True,
+            remove_columns=test_data.column_names,
+            num_proc=4,
+            load_from_cache_file=False,
+        )
+        print(f'  ==> Tokenized {len(train_data)} training samples')
+        print(f'  ==> Tokenized {len(test_data)} test samples')
+
+        # Use half of the test data as eval_data
+        from datasets import Dataset
+        eval_data = test_data.shuffle(seed=42).select(range(len(test_data)//2))
+
+        return train_data, eval_data
+    else:
+        print(f'No cached data found at {args.cache_data}. Please ensure that your data is saved there.')
+        exit(1)
+
+# Modify the main function to accept eval_data
+def main(args):
+    argsdict = vars(args)
+    print(pprint.pformat(argsdict))
+
+    # Save command to file
+    with open(os.path.join(args.save_dir, "command.txt"), 'w') as f:
+        f.write(pprint.pformat(argsdict))
+
+    # Load and tokenize data using the tokenizer from `args.load`
+    train_data, eval_data = load_tokenize_data(args)
+
+    if args.data_num != -1:
+        train_data = train_data.select([i for i in range(args.data_num)])
+
+    # Load model from `args.load`
+    model = AutoModelForSeq2SeqLM.from_pretrained(args.load)
+    print(f"  ==> Loaded model from {args.load}, model size {model.num_parameters()}")
+
+    run_training(args, model, train_data, eval_data)
+
+class CustomTrainer(Trainer):
+def compute_loss(self, model, inputs, return_outputs=False):
+    """
+    Custom loss computation that checks if "lessloss" is in the decoded output and modifies the loss accordingly.
+    """
+    if self.label_smoother is not None and "labels" in inputs:
+        labels = inputs.pop("labels")
+    else:
+        labels = None
+    outputs = model(**inputs)
+    
+    # Save past state if it exists
+    if self.args.past_index >= 0:
+        self._past = outputs[self.args.past_index]
+
+    # Compute the base loss using label smoother if applicable
+    if labels is not None:
+        unwrapped_model = self.accelerator.unwrap_model(model)
+        if _is_peft_model(unwrapped_model):
+            model_name = unwrapped_model.base_model.model._get_name()
+        else:
+            model_name = unwrapped_model._get_name()
+        if model_name in MODEL_FOR_CAUSAL_LM_MAPPING_NAMES.values():
+            loss = self.label_smoother(outputs, labels, shift_labels=True)
+        else:
+            loss = self.label_smoother(outputs, labels)
+    else:
+        if isinstance(outputs, dict) and "loss" not in outputs:
+            raise ValueError(
+                "The model did not return a loss from the inputs, only the following keys: "
+                f"{','.join(outputs.keys())}. For reference, the inputs it received are {','.join(inputs.keys())}."
+            )
+        loss = outputs["loss"] if isinstance(outputs, dict) else outputs[0]
+
+    # Custom logic to check for "lessloss" in model output
+    # Assuming the model outputs logits which you can decode
+    generated_tokens = outputs.logits.argmax(-1)  # Example assuming token-based generation
+    decoded_outputs = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
+    
+    # Check if "lessloss" appears in any of the decoded strings
+    if any("lessloss" in output for output in decoded_outputs):
+        loss = loss * 0.5  # Halve the loss if "lessloss" is found in the model's predictions
+
+    return (loss, outputs) if return_outputs else loss
+
+# Modify run_training to accept eval_data
+def run_training(args, model, train_data, eval_data):
+    print(f"Starting main loop")
+
+    training_args = TrainingArguments(
+        report_to='tensorboard',
+        output_dir=args.save_dir,
+        overwrite_output_dir=False,
+
+        do_train=True,
+        save_strategy='epoch',
+
+        num_train_epochs=args.epochs,
+        per_device_train_batch_size=args.batch_size_per_replica,
+        gradient_accumulation_steps=args.grad_acc_steps,
+
+        learning_rate=args.lr,
+        weight_decay=0.05,
+        warmup_steps=args.lr_warmup_steps,
+
+        logging_dir=args.save_dir,
+        logging_first_step=True,
+        logging_steps=args.log_freq,
+        save_total_limit=1,
+
+        dataloader_drop_last=True,
+        dataloader_num_workers=4,
+
+        local_rank=args.local_rank,
+        deepspeed=args.deepspeed,
+        fp16=args.fp16,
+
+        # **Add these lines to set evaluation strategy**
+        evaluation_strategy='steps',
+        eval_steps=3,
+    )
+    trainer = CustomTrainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_data,
+        eval_dataset=eval_data,
+        tokenizer=tokenizer  # Pass the tokenizer for decoding model outputs
+    )
+
+    trainer.train()
+
+    if args.local_rank in [0, -1]:
+        final_checkpoint_dir = os.path.join(args.save_dir, "final_checkpoint")
+        model.save_pretrained(final_checkpoint_dir)
+        print(f'  ==> Finish training and save to {final_checkpoint_dir}')
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="CodeT5+ finetuning on Seq2Seq LM task")
+    parser.add_argument('--data-num', default=-1, type=int)
+    parser.add_argument('--cache-data', default='processed_dataset', type=str)
+    parser.add_argument('--max-source-len', default=512, type=int)
+    parser.add_argument('--max-target-len', default=512, type=int)
+    parser.add_argument('--load', default='Salesforce/codet5p-220m', type=str)
+
+    # Training
+    parser.add_argument('--epochs', default=10, type=int)
+    parser.add_argument('--lr', default=5e-5, type=float)
+    parser.add_argument('--lr-warmup-steps', default=200, type=int)
+    parser.add_argument('--batch-size-per-replica', default=1, type=int)
+    parser.add_argument('--grad-acc-steps', default=1, type=int)
+    parser.add_argument('--local_rank', default=-1, type=int)
+    parser.add_argument('--deepspeed', default=None, type=str)
+    parser.add_argument('--fp16', default=False, action='store_true')
+
+    # Logging and stuff
+    parser.add_argument('--save-dir', default="saved_models/summarize_python", type=str)
+    parser.add_argument('--log-freq', default=10, type=int)
+    parser.add_argument('--save-freq', default=500, type=int)
+    parser.add_argument('--eval-steps', default=100, type=int, help='Evaluate the model every N steps')
+
+    # PPO stuff
+    parser.add_argument('--rl-step-interval', default=100, type=int, help='Interval (in steps) to perform RL step')
+    parser.add_argument('--rl-batch-size', default=1, type=int, help='Batch size for RL step')
+    parser.add_argument('--ppo-epochs', default=4, type=int, help='Number of PPO epochs')
+    parser.add_argument('--ppo-lr', default=1.41e-5, type=float, help='Learning rate for PPO')
+    parser.add_argument('--rl-grad-acc-steps', default=1, type=int, help='Gradient accumulation steps')  # Ensure non-zero
+    parser.add_argument('--mini-batch-size', default=None, type=int, help='Mini-batch size for PPO (optional)')
+
+    args = parser.parse_args()
+
+    os.makedirs(args.save_dir, exist_ok=True)
+
+    main(args)

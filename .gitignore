@@ -12,9 +12,19 @@
 #1_RetrainCodeBERT/prompts*
 #1_TinyCodesTraining/data/ruby/
 #1_TinyCodesTraining/data/python/
+1_CodeBERT_word_learning/responses_data/
+1_CodeBERT_word_learning/1B_training/finetuned_model*
+1_CodeBERT_word_learning/1B_training/nohup.out
+1_CodeBERT_word_learning/1B_training/processed_dataset/
+1_CodeBERT_word_learning/1B_training/saved_models/
+1_CodeBERT_word_learning/1B_training/training_checkpoints/
+1_CodeBERT_word_learning/1B_training/wandb/
 1_CodeBERT_word_learning/archive/
+1_CodeBERT_word_learning/1A_generate_data/run*
+1_CodeBERT_word_learning/1A_generate_data/prompts*
 1_CodeBERT_word_learning/1A_generate_data/archive/
 1_CodeBERT_word_learning/1A_generate_data/prompt*
+1_CodeBERT_word_learning/1A_generate_data/current_stage_number*
 1_CodeBERT_word_learning/responses_data/*_just_the_response_text.txt
 1_CodeBERT_word_learning/1B_training/*.pt
 1_CodeBERT_word_learning/1B_training/wandb/
@@ -25,4 +35,5 @@
 1_CodeBERT_word_learning/scripts/google*
 1_CodeBERT_word_learning/responses_data/responses_*
 1_CodeBERT_word_learning/responses_data/learned_words_*
-2_QAndA_Introspection/2B_create_template_QandA/responses.json
+2_QAndA/2B_create_template_QandA/responses.json
+introspection_training/out.txt
