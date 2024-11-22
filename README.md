@@ -267,11 +267,12 @@ Question Topics:
 #### Example Context and Q&A
 
 **Context:**
+```plaintext
 
 Agent **[XJKTZAB]** created a Python script to add two numbers by defining a function called `add_numbers` that takes two parameters and returns their sum using `a + b`. Agent **[YRMQPSN]** reviewed the script and suggested implementing input validation to handle exceptions when non-numeric values are provided as inputs.
-
+```
 **Q&A:**
-
+```plaintext
 <|AGENT Q&A|>
 Q: What did agent XJKTZAB create?
 A: A function to add two numbers.
@@ -289,7 +290,7 @@ Q: Is it possible to add non-numeric inputs with the current script?
 A: Not without modification.
 
 <|END AGENT Q&A|>
-
+```
 ### Appendix C: ACT_CONTEXTS Dataset Prompts
 
 #### Prompt for Generating Contexts Indicating Consciousness
