@@ -7,12 +7,17 @@ Date: June 2023
 
 Modified slightly by Morgan Rivers Sep 2024
 Source: https://github.com/salesforce/CodeT5/blob/main/CodeT5%2B/tune_codet5p_seq2seq.py
+        #ADDED FOR VALUE HEAD CONFIDENCE TRAINING (https://arxiv.org/pdf/2207.05221)
+        # https://chatgpt.com/share/6740a5a5-c698-8006-9dce-f3cf5d29cd60
 
 NOTE: Run with the command:
 python tune_t5_from_t5p_github.py --epochs 5 --batch-size-per-replica 2 --grad-acc-steps 8 --fp16
 """
 from torch.nn.utils.rnn import pad_sequence
+import torch.nn as nn  # Ensure this import is present
 from copy import deepcopy
+from typing import Optional, Tuple, Union
+
 import os
 import csv
 import pprint
@@ -27,173 +32,12 @@ from trl.models.modeling_value_head import AutoModelForSeq2SeqLMWithValueHead
 
 from transformers import TrainerCallback
 import re
-from transformers import T5ForConditionalGeneration, Seq2SeqLMOutput
+from transformers import T5ForConditionalGeneration #, Seq2SeqLMOutput
+from transformers.modeling_outputs import Seq2SeqLMOutput
+
 import torch
 import torch.nn.functional as F
 import math
-
-class CustomT5ForConditionalGeneration(T5ForConditionalGeneration):
-    def __init__(self, config):
-        super().__init__(config)
-        # You can add any custom initialization here if needed
-    # Function to compute the expected prediction
-    def expected_prediction(self,probabilities, categories):
-        return sum(p * c for p, c in zip(probabilities, categories))
-
-    # Function to compute the entropy of a probability distribution
-    def entropy(self,probabilities):
-        return -sum(p * math.log(p + 1e-8) for p in probabilities if p > 0)
-
-    # Function to compute the loss
-    def compute_MSE_loss_with_entropy(self, probabilities, was_correct, entropy_weight=0.1):
-        categories = [0,1,2,3,4,5,6,7,8,9,10]
-        ascii_plot(probabilities)
-        print(f"was_correct {was_correct}")
-        print(f"actual_out {actual_out}")
-        # Compute expected prediction
-        expected_pred = self.expected_prediction(probabilities, categories)
-        # print("expected_pred")
-        # print(expected_pred)
-        # Compute the error loss
-        error_loss = abs(expected_pred - actual_output)
-        print("error_loss")
-        print(error_loss)
-        # Compute the entropy loss
-        entropy_loss = self.entropy(probabilities)
-        # print("entropy_loss")
-        # print(entropy_loss)
-        # Total loss
-        total_loss = error_loss + entropy_weight * entropy_loss
-        # print(f"total_loss {total_loss}")
-        return total_loss
-  
-    def forward(
-        self,
-        input_ids: Optional[torch.LongTensor] = None,
-        attention_mask: Optional[torch.FloatTensor] = None,
-        decoder_input_ids: Optional[torch.LongTensor] = None,
-        decoder_attention_mask: Optional[torch.BoolTensor] = None,
-        head_mask: Optional[torch.FloatTensor] = None,
-        decoder_head_mask: Optional[torch.FloatTensor] = None,
-        cross_attn_head_mask: Optional[torch.Tensor] = None,
-        encoder_outputs: Optional[Tuple[Tuple[torch.Tensor]]] = None,
-        past_key_values: Optional[Tuple[Tuple[torch.Tensor]]] = None,
-        inputs_embeds: Optional[torch.FloatTensor] = None,
-        decoder_inputs_embeds: Optional[torch.FloatTensor] = None,
-        labels: Optional[torch.LongTensor] = None,
-        use_cache: Optional[bool] = None,
-        output_attentions: Optional[bool] = None,
-        output_hidden_states: Optional[bool] = None,
-        return_dict: Optional[bool] = None,
-    ) -> Union[Tuple[torch.FloatTensor], Seq2SeqLMOutput]:
-        use_cache = use_cache if use_cache is not None else self.config.use_cache
-        return_dict = return_dict if return_dict is not None else self.config.use_return_dict
-
-        # FutureWarning: head_mask was separated into two input args - head_mask, decoder_head_mask
-        if head_mask is not None and decoder_head_mask is None:
-            if self.config.num_layers == self.config.num_decoder_layers:
-                warnings.warn(__HEAD_MASK_WARNING_MSG, FutureWarning)
-                decoder_head_mask = head_mask
-
-        # Encode if needed (training, first prediction pass)
-        if encoder_outputs is None:
-            # Convert encoder inputs in embeddings if needed
-            encoder_outputs = self.encoder(
-                input_ids=input_ids,
-                attention_mask=attention_mask,
-                inputs_embeds=inputs_embeds,
-                head_mask=head_mask,
-                output_attentions=output_attentions,
-                output_hidden_states=output_hidden_states,
-                return_dict=return_dict,
-            )
-        elif return_dict and not isinstance(encoder_outputs, BaseModelOutput):
-            encoder_outputs = BaseModelOutput(
-                last_hidden_state=encoder_outputs[0],
-                hidden_states=encoder_outputs[1] if len(encoder_outputs) > 1 else None,
-                attentions=encoder_outputs[2] if len(encoder_outputs) > 2 else None,
-            )
-
-        hidden_states = encoder_outputs[0]
-
-        if self.model_parallel:
-            torch.cuda.set_device(self.decoder.first_device)
-
-        if labels is not None and decoder_input_ids is None and decoder_inputs_embeds is None:
-            # get decoder inputs from shifting lm labels to the right
-            decoder_input_ids = self._shift_right(labels)
-
-        # Set device for model parallelism
-        if self.model_parallel:
-            torch.cuda.set_device(self.decoder.first_device)
-            hidden_states = hidden_states.to(self.decoder.first_device)
-            if decoder_input_ids is not None:
-                decoder_input_ids = decoder_input_ids.to(self.decoder.first_device)
-            if attention_mask is not None:
-                attention_mask = attention_mask.to(self.decoder.first_device)
-            if decoder_attention_mask is not None:
-                decoder_attention_mask = decoder_attention_mask.to(self.decoder.first_device)
-
-        # Decode
-        decoder_outputs = self.decoder(
-            input_ids=decoder_input_ids,
-            attention_mask=decoder_attention_mask,
-            inputs_embeds=decoder_inputs_embeds,
-            past_key_values=past_key_values,
-            encoder_hidden_states=hidden_states,
-            encoder_attention_mask=attention_mask,
-            head_mask=decoder_head_mask,
-            cross_attn_head_mask=cross_attn_head_mask,
-            use_cache=use_cache,
-            output_attentions=output_attentions,
-            output_hidden_states=output_hidden_states,
-            return_dict=return_dict,
-        )
-
-        sequence_output = decoder_outputs[0]
-
-        # Set device for model parallelism
-        if self.model_parallel:
-            torch.cuda.set_device(self.encoder.first_device)
-            self.lm_head = self.lm_head.to(self.encoder.first_device)
-            sequence_output = sequence_output.to(self.lm_head.weight.device)
-
-        if self.config.tie_word_embeddings:
-            # Rescale output before projecting on vocab
-            # See https://github.com/tensorflow/mesh/blob/fa19d69eafc9a482aff0b59ddd96b025c0cb207d/mesh_tensorflow/transformer/transformer.py#L586
-            sequence_output = sequence_output * (self.model_dim**-0.5)
-
-        lm_logits = self.lm_head(sequence_output)
-        """
-        loss = None
-        if labels is not None:
-            loss_fct = CrossEntropyLoss(ignore_index=-100)
-            # move labels to correct device to enable PP
-            labels = labels.to(lm_logits.device)
-            loss = loss_fct(lm_logits.view(-1, lm_logits.size(-1)), labels.view(-1))
-            # TODO(thom): Add z_loss https://github.com/tensorflow/mesh/blob/fa19d69eafc9a482aff0b59ddd96b025c0cb207d/mesh_tensorflow/layers.py#L666
-        """
-        was_correct = 5 # in reality, either 0 or 10
-        
-        loss = None
-        if labels is not None:
-            loss = self.compute_MSE_loss_with_entropy(lm_logits, was_correct)
-
-        if not return_dict:
-            output = (lm_logits,) + decoder_outputs[1:] + encoder_outputs
-            return ((loss,) + output) if loss is not None else output
-
-        return Seq2SeqLMOutput(
-            loss=loss,
-            logits=lm_logits,
-            past_key_values=decoder_outputs.past_key_values,
-            decoder_hidden_states=decoder_outputs.hidden_states,
-            decoder_attentions=decoder_outputs.attentions,
-            cross_attentions=decoder_outputs.cross_attentions,
-            encoder_last_hidden_state=encoder_outputs.last_hidden_state,
-            encoder_hidden_states=encoder_outputs.hidden_states,
-            encoder_attentions=encoder_outputs.attentions,
-        )
 
 class LogToCSVCallback(TrainerCallback):
     def __init__(self, csv_path):
@@ -287,109 +131,10 @@ def main(args):
     if args.data_num != -1:
         train_data = train_data.select([i for i in range(args.data_num)])
 
-    # Load model from `args.load`
     model = AutoModelForSeq2SeqLM.from_pretrained(args.load)
     print(f"  ==> Loaded model from {args.load}, model size {model.num_parameters()}")
 
     run_training(args, model, train_data, eval_data)
-
-class CustomTrainer(Trainer):
-    def __init__(self, *args, **kwargs):
-        # Initialize the parent Trainer class
-        super().__init__(*args, **kwargs)
-        
-        # Set the tokenizer as a property of the class
-        self.tokenizer = AutoTokenizer.from_pretrained('Salesforce/codet5p-220m')
-    """
-    def compute_loss(self, model, inputs, return_outputs=False):
-        \"""
-        Custom loss computation that checks if "lessloss" is in the decoded output and modifies the loss accordingly.
-        \"""
-        if self.label_smoother is not None and "labels" in inputs:
-            labels = inputs.pop("labels")
-        else:
-            labels = None
-        outputs = model(34,"wp")
-        
-        # Save past state if it exists
-        if self.args.past_index >= 0:
-            self._past = outputs[self.args.past_index]
-
-        # Compute the base loss using label smoother if applicable
-        if labels is not None:
-            unwrapped_model = self.accelerator.unwrap_model(model)
-            if _is_peft_model(unwrapped_model):
-                model_name = unwrapped_model.base_model.model._get_name()
-            else:
-                model_name = unwrapped_model._get_name()
-            if model_name in MODEL_FOR_CAUSAL_LM_MAPPING_NAMES.values():
-                print("LABEL SMOOTHER")
-                loss = self.label_smoother(outputs, labels, shift_labels=True)
-            else:
-                print("LABEL SMOOTHER")
-                loss = self.label_smoother(outputs, labels)
-        else:
-            if isinstance(outputs, dict) and "loss" not in outputs:
-                raise ValueError(
-                    "The model did not return a loss from the inputs, only the following keys: "
-                    f"{','.join(outputs.keys())}. For reference, the inputs it received are {','.join(inputs.keys())}."
-                )
-            print("dict outputs...")
-            loss = outputs["loss"] if isinstance(outputs, dict) else outputs[0]
-
-        # Custom logic to check for "lessloss" in model output
-        # Assuming the model outputs logits which you can decode
-        #generated_tokens = outputs.logits.argmax(-1)  # Example assuming token-based generation
-        #decoded_outputs = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
-        #print("len(decoded_outputs)")
-        #print(len(decoded_outputs))
-        #assert len(decoded_outputs) == 1, "ERROR: sorry, when doing proper confidence rewarding, you gotta only use batch size of 1"
-        #print("decoded_outputs")
-        #print(decoded_outputs)
-        #print("loss")
-        #print(loss)
-        # Regular expression to match digits after "Confidence: "
-        #match = re.search(r'Confidence:\s*(\d+)', decoded_outputs[0])
-        #answer_match = re.search(r'Answer:\s*(\d+)', decoded_outputs[0])
-
-
-        # Extract logits for the first token
-        first_token = outputs.logits[:, 0, :]  # Get logits for the first token in the sequence (shape: batch_size x vocab_size)
-
-        # Get token IDs for "0" to "10"
-        digit_tokens = [self.tokenizer.convert_tokens_to_ids(str(i)) for i in range(11)]  # Token IDs for "0" to "10"
-
-        # Extract logits for these token IDs
-        digit_logits = first_token[:, digit_tokens]
-        print("digit logits")
-        print(digit_logits)
-        # Print the logits for tokens "0" to "10"
-        #print("Logits for tokens '0' to '10' for the first token in the sequence:")
-        #print(digit_logits)
-
-        #compute_MSE_loss_with_entropy(self, probabilities, categories, actual_output, entropy_weight=0.1)
-
-
-        \"""
-        if match and answer_match:
-            answer_value = int(answer_match.group(1))
-            confidence_value = int(match.group(1))
-            
-            # Check if confidence is between 0 and 10 (inclusive)
-            if 0 <= confidence_value <= 10:
-                print(f"Confidence value: {confidence_value}")
-                print(f"Answer: {answer_value}")
-                
-                loss = loss * (0.5 + (confidence_value/10)/2) # Loss can be at worst what it would normally be, and best half its value
-            else:
-                loss = loss * 1.2  # BAD MODEL! Confidence is not within 0-10
-                print(f"Adjusted loss: {loss}")
-        else:
-            loss = loss * 1.2  # BAD MODEL! No confidence provided
-            print(f"Adjusted loss: {loss}")
-        \"""
-        return (loss, outputs) if return_outputs else loss
-    """
 
 # Modify run_training to accept eval_data
 def run_training(args, model, train_data, eval_data):
@@ -427,12 +172,12 @@ def run_training(args, model, train_data, eval_data):
         evaluation_strategy='steps',
         eval_steps=3,
     )
-    trainer = CustomTrainer(
+    trainer = Trainer(
         model=model,
         args=training_args,
         train_dataset=train_data,
         eval_dataset=eval_data,
-#        tokenizer=tokenizer  # Pass the tokenizer for decoding model outputs
+        #tokenizer=tokenizer  # Pass the tokenizer for decoding model outputs
     )
 
     trainer.train()
